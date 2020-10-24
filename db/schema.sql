@@ -2,7 +2,7 @@ BEGIN TRANSACTION;
 
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  username VARCHAR(255) NOT NULL,
+  username VARCHAR(255) NOT NULL UNIQUE,
   password_digest TEXT NOT NULL,
   auth_token TEXT
 );
