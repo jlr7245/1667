@@ -31,9 +31,9 @@ User.prototype.save = function () {
     .then((user) => new User(user));
 };
 
-User.prototype.setAuthToken = function () {
+User.prototype.setAuthToken = function (token) {
   return db
-    .one(`UPDATE users SET auth_token = $/auth_token/ WHERE id = $/id/`, this)
+    .one(`UPDATE users SET auth_token = $1 WHERE id = $2 RETURNING *`, [token, this.id])
     .then((user) => new User(user));
 };
 

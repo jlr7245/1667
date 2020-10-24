@@ -5,7 +5,7 @@ const StatusError = require('./StatusError');
 
 /**
  * Generates a JWT token for a user
- * @param {string} username
+ * @param {object} username format { username: 'my cool username' }
  */
 const generateAccessToken = (username) =>
   jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '30d' });
@@ -23,7 +23,6 @@ const authenticateToken = (req, res, next) => {
   if (!token) throw new StatusError(401, 'Token required');
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
-    console.log(err);
     if (err) throw new StatusError(403, 'Invalid token for user');
     req.user = user;
     next();
