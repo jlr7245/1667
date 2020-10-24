@@ -1,0 +1,32 @@
+BEGIN TRANSACTION;
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255) NOT NULL,
+  password_digest TEXT NOT NULL,
+  auth_token TEXT
+);
+
+CREATE TABLE writings (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) NOT NULL,
+  content TEXT NOT NULL,
+  for_day INTEGER,
+  ctime TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT (NOW() AT TIME ZONE 'utc'),
+  mtime TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT (NOW() AT TIME ZONE 'utc'),
+  wordcount BIGINT NOT NULL
+);
+
+CREATE OR REPLACE FUNCTION update_mtime() RETURNS TRIGGER AS
+$$
+BEGIN
+  NEW.mtime = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE 'plpgsql';
+
+CREATE TRIGGER writings_update_mtime
+  BEFORE UPDATE ON writings
+  FOR EACH ROW EXECUTE PROCEDURE update_mtime();
+
+COMMIT;
