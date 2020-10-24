@@ -1,6 +1,6 @@
-const express = require("express");
-const logger = require("morgan");
-const bodyParser = require("body-parser");
+const express = require('express');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
 
 const StatusError = require('./utils/StatusError');
 
@@ -11,7 +11,7 @@ app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-app.use(logger("dev"));
+app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -20,12 +20,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.send("this is not the endpoint yr looking for");
+app.get('/', (req, res) => {
+  res.send('this is not the endpoint yr looking for');
 });
 
-app.use("*", (req, res) => {
-  throw new StatusError(404, "Not found");
+app.use('*', (req, res) => {
+  throw new StatusError(404, 'Not found');
 });
 
 app.use((err, req, res, next) => {
