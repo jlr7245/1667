@@ -1,6 +1,7 @@
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const User = require('../api/users/User');
 const StatusError = require('./StatusError');
 
 /**
@@ -24,8 +25,11 @@ const authenticateToken = (req, res, next) => {
 
   jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
     if (err) throw new StatusError(403, 'Invalid token for user');
-    req.user = user;
-    next();
+    User.findByUserName(user.username)
+      .then(user => {
+        req.user = user;
+        next();
+      })
   });
 };
 
