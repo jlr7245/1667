@@ -24,6 +24,8 @@ app.get('/', (req, res) => {
   res.send('this is not the endpoint yr looking for');
 });
 
+app.use('/api', require('./api'));
+
 app.use('*', (req, res) => {
   throw new StatusError(404, 'Not found');
 });
