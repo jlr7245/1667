@@ -14,6 +14,17 @@ function Writing({ id, user_id, content, for_day, ctime, mtime, wordcount }) {
 Object.assign(Writing, modelDefaults('writings', Writing));
 
 /**
+ * Finds a writing by the user ID and the current day of the challenge.
+ * There should only be one; if there's more than one, it will error
+ * @param {object} params { user_id, for_day }
+ */
+Writing.findByUserAndForDay = function(params) {
+  return db.one(`SELECT * FROM writings
+  WHERE user_id = $/user_id/ AND for_day = $/for_day/ LIMIT 1`, params)
+    .then(writing => new Writing(writing));
+}
+
+/**
  * Creates a new record for the writing in the database
  */
 Writing.prototype.save = function () {
