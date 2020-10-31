@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body {
+  font-size: 18px;
+}
+
+.cntr {
+  width: 80vw;
+  max-width: 800px;
+  margin: 20vh auto 30vh;
+}
+
+h1 {
+  font-size: 3em;
+  margin: 20px 0;
+}
+h3 {
+  margin: 10px 0;
+}
+b {
+  font-weight: bold;
+}
+i {
+  font-style: italic;
+}
+
+.writebox {
+  padding: 20px;
+  margin: 20px 0;
+  height: 50vh;
+  overflow-x: auto;
+  line-height: 1.3em;
+}
+
+.writebox:focus {
+  outline: none;
+}
+
+.write-footer, .count-stgs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wordcount {
+  margin: 0 10px;
+}
+
+.fa {
+  cursor: pointer;
+}
+
+.settings {
+  width: 100%;
+  height: 250px;
+  position: fixed;
+  bottom: 0;
+  padding: 50px 0;
+  border-top: 1px solid;
+}
+
+.short-ctnr {
+  max-width: 1000px;
+  width: 80vw;
+}
+
+.hide {
+  display: none;
+}
+
+/* themeing */
+
+.sans {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+.serif {
+  font-family: 'IBM Plex Serif', Georgia, Cambria, Cochin, sans-serif;
+}
+.mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.regular {
+  background-color: #f7edb2;
+  color: #001628;
+  border-color: #001628;
+}
+
+.regular-inverted {
+  background-color: #001628;
+  color: #f7edb2;
+  border-color: #f7edb2;
+}
+button.regular-inverted:hover {
+  color: white;
+}
+
+.darkroom {
+  background-color: black;
+  color: darkred;
+  border-color: darkred;
+}
+button.darkroom:hover {
+  color: red;
+}
+
+.migraine {
+  background-color: #00ff00;
+  color: #222;
+  border-color: #222;
+}
+.migraine-inverted {
+  background-color: #222;
+  color: #00ff00;
+  border-color: #00ff00;
+}
+button.migraine-inverted:hover {
+  color: #00ff33;
+}
+
+.small {
+  font-size: 18px;
+}
+.medium {
+  font-size: 22px;
+}
+.large {
+  font-size: 28px;
+}
