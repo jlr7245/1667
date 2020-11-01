@@ -3,6 +3,12 @@ console.log('hello world!');
 let hasBeenSaved = false;
 let changesSinceLastSave = false;
 
+const app = new OneSixSixSeven({
+  token: storage.token(),
+  settings: storage.getSettings(),
+  day: isStillYday() ? yday() : today()
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   const writeBox = document.querySelector('.writebox');
   const count = document.querySelector('.count');
@@ -15,22 +21,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const root = document.documentElement;
   let saveInterval;
 
-  saveButton.addEventListener('click', (evt) =>
-    save(JSON.stringify(evt.target.innerHTML))
+  if (storage.isUserAuthenticated()) {
+    loginModalContainer.classList.add('hide');
+    app.getTodaysContentIfExists((content) => {
+      if (content) writeBox.innerHTML = content;
+      count.innerText = splitter(writeBox.innerText).length;
+      if (splitter(writeBox.innerText).length > 1667) hasBeenSaved = true;
+    });
+  }
+
+  saveButton.addEventListener('click', () =>
+    app.updateInDb(JSON.stringify(writeBox.innerHTML), parseInt(count.innerText))
   );
-
-  // saves the text to db
-  const save = (text) => {
-    hasBeenSaved = true;
-    console.log('the text has been saved');
-    saveButton.setAttribute('disabled', 'true');
-    changesSinceLastSave = false;
-  };
-
-  // loads existing text in db
-  const load = (forDay) => {
-    console.log('the text has been loaded');
-  };
 
   // adjusts the theme of the thing
   const adjustTheme = (alter, value) => {
@@ -66,17 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (wordList.length >= 1667) {
       saveButton.removeAttribute('disabled');
       if (!hasBeenSaved) {
-        save(JSON.stringify(evt.target.innerHTML));
-        saveInterval = setInterval(() => {
-          if (changesSinceLastSave) {
-            console.log(changesSinceLastSave);
-            saveButton.removeAttribute('disabled');
-          }
-        }, 5000);
+        app.saveToDb(JSON.stringify(evt.target.innerHTML), wordList.length, () => {
+          hasBeenSaved = true;
+        });
       }
-    } else if (saveInterval) {
-      clearInterval(saveInterval);
-      changesSinceLastSave = false;
     }
   });
 
@@ -87,10 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const password = evt.target.password.value;
     const isNewUser = evt.target.isnewuser.checked;
     if (isNewUser) {
-      registerNewUser({ username, password }).then((result) => {
-        console.log('welcome to the result');
-        loginModalContainer.classList.add('hide');
-      });
+      app.registerUser({ username, password }, () =>
+        loginModalContainer.classList.add('hide')
+      );
     } else
       loginUser({ username, password }).then((result) => {
         console.log('this sure is a result of some kind');
@@ -98,4 +92,26 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     console.log(evt.target.isnewuser.checked);
   });
+
+  // clears things at 4am
+  setInterval(
+    () =>
+      app.configureFourAMFromNow(() => {
+        const wordNum = parseInt(count.innerText);
+        if (wordNum >= 1667) {
+          app.updateInDb(
+            JSON.stringify(writeBox.innerHTML),
+            () => (writeBox.innerHTML = '')
+          );
+        } else {
+          writeBox.innerHTML = '';
+        }
+      }),
+    10000
+  );
+
+  // sets content in local storage every so often
+  setInterval(() => {
+    app.saveContentInLocalStorage(JSON.stringify(writeBox.innerHTML));
+  }, 1000);  
 });

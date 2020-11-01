@@ -77,7 +77,7 @@ i {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 /* themeing */
@@ -155,10 +155,11 @@ button.migraine-inverted:hover {
   width: 100vw;
   position: fixed;
   top: 0;
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0,0,0,0.8);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 3000;
 }
 
 .login-or-register {
