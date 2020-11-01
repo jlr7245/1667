@@ -26,3 +26,10 @@ const fontLookup = {
   mono: "'IBM Plex Mono', monospace",
 };
 
+const splitter = (text) => {
+  const byNewline = text.trim().split('\n');
+  return byNewline.reduce((acc, val) => {
+    const splitVal = val.split(' ');
+    return acc.concat(splitVal);
+  }, []);
+};
