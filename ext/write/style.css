@@ -1,7 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400;1,700&family=IBM+Plex+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
+:root {
+  --theme-background: #f7edb2;
+  --theme-text: #001628;
+  --theme-border: #001628;
+  --theme-button-hover: #001628;
+  --font: 'IBM Plex Sans', sans-serif;
+  --size: '18px';
+}
+
 body {
   font-size: 18px;
+  font-family: var(--font);
 }
 
 .cntr {
@@ -29,7 +39,9 @@ i {
   margin: 20px 0;
   height: 50vh;
   overflow-x: auto;
-  line-height: 1.3em;
+  line-height: 1.4em;
+  font-size: var(--size) !important;
+  font-family: var(--font) !important;
 }
 
 .writebox:focus {
@@ -80,6 +92,15 @@ i {
   font-family: 'IBM Plex Mono', monospace;
 }
 
+.themed {
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+  border-color: var(--theme-border);
+}
+button.themed:hover {
+  color: var(--theme-button-hover);
+}
+
 .regular {
   background-color: #f7edb2;
   color: #001628;
@@ -97,11 +118,11 @@ button.regular-inverted:hover {
 
 .darkroom {
   background-color: black;
-  color: darkred;
-  border-color: darkred;
+  color: #8b0000;
+  border-color: #8b0000;
 }
 button.darkroom:hover {
-  color: red;
+  color: #ff0000;
 }
 
 .migraine {
