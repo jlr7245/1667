@@ -1,6 +1,6 @@
 class OneSixSixSeven {
   constructor({ token, settings, day }) {
-    this.url = 'http://localhost:3000';
+    this.url = 'https://grisly-corpse-07746.herokuapp.com';
     this.token = token;
     this.settings = settings;
     this.day = day;
